@@ -51,7 +51,8 @@ class UserSessionsController < ApplicationController
     auto_login @user
     User.increment_counter(:visit_count, @user.id)
     log_course_login_event
-    redirect_back_or_to dashboard_path
+    respond_with @user, location: dashboard_path
+    #redirect_back_or_to dashboard_path
   end
 
   def destroy

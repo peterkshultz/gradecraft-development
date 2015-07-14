@@ -123,22 +123,14 @@ class User < ActiveRecord::Base
   validates :first_name, :last_name, :presence => true
 
   def self.find_or_create_by_lti_auth_hash(auth_hash)
-    criteria = { email: auth_hash['info']['email'] }
+    criteria = { email: auth_hash['info'] }
     where(criteria).first || create!(criteria) do |u|
       u.lti_uid = auth_hash['uid']
       auth_hash['info'].tap do |info|
-        u.first_name = info['first_name']
-        u.last_name = info['last_name']
-      end
-      auth_hash['extra']['raw_info'].tap do |extra|
-        if extra['tool_consumer_info_product_family_code'] == "sakai"
-          u.username = extra['lis_person_sourcedid']
-          u.kerberos_uid = extra['lis_person_sourcedid']
-
-        elsif extra['tool_consumer_info_product_family_code'] == "canvas"
-          u.username = extra['custom_canvas_user_login_id']
-          u.kerberos_uid = extra['custom_canvas_user_login_id']
-        end
+        u.first_name = info['lis_person_name_given']
+        u.last_name = info['lis_person_name_family']
+        u.username = info['lis_person_contact_email_primary']
+        u.kerberos_uid = info['lis_person_contact_email_primary']
       end
     end
   end

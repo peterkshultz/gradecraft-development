@@ -123,14 +123,13 @@ class User < ActiveRecord::Base
   validates :first_name, :last_name, :presence => true
 
   def self.find_or_create_by_lti_auth_hash(auth_hash)
-    criteria = { email: auth_hash['info'] }
+    criteria = { email: auth_hash['info']['lis_person_contact_email_primary'] }
     where(criteria).first || create!(criteria) do |u|
-      u.lti_uid = auth_hash['uid']
       auth_hash['info'].tap do |info|
         u.first_name = info['lis_person_name_given']
         u.last_name = info['lis_person_name_family']
-        u.username = info['lis_person_contact_email_primary']
-        u.kerberos_uid = info['lis_person_contact_email_primary']
+        u.username = info["lis_person_contact_email_primary.split('@')[0]"]
+        u.kerberos_uid = info["lis_person_contact_email_primary.split('@')[0]"]
       end
     end
   end

@@ -11,7 +11,6 @@ describe BadgeFile do
 
   it { should respond_to("filename")}
   it { should respond_to("badge_id")}
-  it { should respond_to("filepath")}
   it { should respond_to("file")}
   it { should respond_to("file_processing")}
   it { should respond_to("created_at")}
@@ -22,13 +21,6 @@ describe BadgeFile do
   describe "when filename is not present" do
     before { @badge_file.filename = nil }
     it { should_not be_valid }
-  end
-
-  describe "when filepath is not present" do
-    pending("shouldn't we fail?") do
-      @badge_file.filepath = nil
-      it { should_not be_valid }
-    end
   end
 
   describe "as a dependency of the submission" do

@@ -56,7 +56,7 @@ describe Submission do
   end
 
   it "can be saved with only an attached file" do
-    @submission.submission_files.new(filename: "test", filepath: "polsci101/submissionfile/", file: fixture_file('test_image.jpg', 'img/jpg'))
+    @submission.submission_files.new(filename: "test", file: fixture_file('test_image.jpg', 'img/jpg'))
     @submission.save!
     expect @submission.should have(0).errors
   end
@@ -64,7 +64,7 @@ describe Submission do
   it "can have an an attached file, comment, and link" do
     @submission.text_comment = "I volunteer! I volunteer! I volunteer as tribute!"
     @submission.link = "http://www.amazon.com/dp/0439023521"
-    @submission.submission_files.new(filename: "test", filepath: "polsci101/submissionfile/", file: fixture_file('test_image.jpg', 'img/jpg'))
+    @submission.submission_files.new(filename: "test", file: fixture_file('test_image.jpg', 'img/jpg'))
     @submission.save!
     expect @submission.should have(0).errors
   end

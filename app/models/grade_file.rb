@@ -6,7 +6,6 @@ class GradeFile < ActiveRecord::Base
   belongs_to :grade
 
   validates :filename, presence: true, length: { maximum: 50 }
-  validates_presence_of :filepath
 
   mount_uploader :file, AttachmentUploader
   process_in_background :file

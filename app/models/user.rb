@@ -185,6 +185,9 @@ class User < ActiveRecord::Base
     course_memberships.count > 1
   end
 
+  def enrolled_in_course?(course)
+  end
+
   def self.auditing_students_in_course(course_id)
     User
       .select("users.id, users.first_name, users.last_name, users.email, users.display_name, course_memberships.score as cached_score")

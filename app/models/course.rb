@@ -267,6 +267,9 @@ class Course < ActiveRecord::Base
   end
 
   def enroll_students(*students)
+    students.collect do |student|
+      CourseMembership.create user: student, course: self, role: "student"
+    end
   end
 
   #Descriptive stats of the grades

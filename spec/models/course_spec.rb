@@ -111,4 +111,41 @@ describe Course do
       expect(subject.instructors_of_record).to be_empty
     end
   end
+
+  describe "#enroll_students", working: true do
+    before(:each) do
+      @course = create(:course)
+      @student1 = create(:student)
+      @student2 = create(:student)
+    end
+
+    context "multiple unenrolled students are enrolled" do
+      it "should enroll both students" do
+        @course_memberships = @course.enroll_students(@student1, @student2)
+      end
+    end
+
+    context "one unenrolled student is enrolled" do
+      it "should enroll the unenrolled student" do
+      end
+    end
+
+    context "no students are enrolled" do
+      it "should not create any new enrollments" do
+      end
+    end
+
+    context "one student is already enrolled and one is not" do
+      it "should enroll the unenrolled student" do
+      end
+
+      it "should not enroll the enrolled student" do
+      end
+    end
+
+    context "one student is submitted and is already enrolled" do
+      it "should not re-enroll the enrolled student" do
+      end
+    end
+  end
 end

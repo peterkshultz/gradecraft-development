@@ -77,7 +77,7 @@ describe EarnedBadgesController do
       end
     end
 
-    describe "POST mass_earn", working: true do
+    describe "POST mass_earn" do
       subject { post :mass_earn, {id: @badge[:id], student_ids: @student_ids} }
 
       before do
@@ -113,7 +113,7 @@ describe EarnedBadgesController do
       end
     end
 
-    describe "send_earned_badge_notifications", working: true do
+    describe "send_earned_badge_notifications" do
       before(:each) do
         @course = create(:course)
         @badge = create(:badge, course_id: @course[:id])

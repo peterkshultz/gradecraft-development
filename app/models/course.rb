@@ -266,6 +266,9 @@ class Course < ActiveRecord::Base
     course_memberships.where(:user_id => student).first.score
   end
 
+  def enroll_students(*students)
+  end
+
   #Descriptive stats of the grades
   def minimum_course_score
     CourseMembership.where(:course => self, :auditing => false, :role => "student").minimum('score')

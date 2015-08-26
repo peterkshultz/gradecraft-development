@@ -90,7 +90,7 @@ end
 
 group :test do
   # added to development for parallel_tests
-  gem 'capybara', '~> 2.1.0'
+  gem 'capybara', '~> 2.5.0'
   gem 'database_cleaner', "~> 1.0.1"
   gem 'launchy'
   gem 'selenium-webdriver'

@@ -83,12 +83,7 @@ describe EarnedBadgesController do
       before do
         @course = create(:course)
         @badge = create(:badge, course_id: @course[:id])
-
-        @professor = create(:user)
-        @professor.courses << @course
-        @membership = CourseMembership.where(user: @professor, course: @course).first.update(role: "professor")
-        login_user(@professor)
-
+        create_and_login_professor
         @students = create_list(:user, 2)
         @student_ids = @students.collect(&:id)
         controller.stub(:current_course) { @course }
@@ -103,7 +98,7 @@ describe EarnedBadgesController do
 
         it "redirects to the badge page" do
           controller.stub(:parse_valid_earned_badges) { @earned_badges }
-          expect(subject).to redirect_to(badge_path(@badge))
+          expect(subject).to redirect_to(badge_url(@badge))
         end
 
         it "redirects back to the edit page" do
@@ -120,10 +115,7 @@ describe EarnedBadgesController do
         @students = create_list(:user, 2)
         @student_ids = @students.collect(&:id)
 
-        @professor = create(:user)
-        @professor.courses << @course
-        @membership = CourseMembership.where(user: @professor, course: @course).first.update(role: "professor")
-        login_user(@professor)
+        create_and_login_professor
 
         @earned_badges = @students.collect do |student|
           create(:earned_badge, student_id: student[:id], badge: @badge)
@@ -170,7 +162,7 @@ describe EarnedBadgesController do
         post :update, { id: @earned_badge.id, :badge_id => @badge.id, :earned_badge => params }
         @earned_badge.reload
         @earned_badge.feedback.should eq("more feedback")
-        response.should redirect_to(badge_path(@badge))
+        response.should redirect_to(badge_url(@badge))
       end
     end
 
@@ -276,5 +268,12 @@ describe EarnedBadgesController do
       end
     end
 
+  end
+
+  def create_and_login_professor
+    @professor = create(:user)
+    @professor.courses << @course
+    @membership = CourseMembership.where(user: @professor, course: @course).first.update(role: "professor")
+    login_user(@professor)
   end
 end

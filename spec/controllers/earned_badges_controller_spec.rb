@@ -77,7 +77,7 @@ describe EarnedBadgesController do
       end
     end
 
-    describe "POST mass_earn" do
+    describe "POST mass_earn" do 
       subject { post :mass_earn, {id: @badge[:id], student_ids: @student_ids} }
 
       before do

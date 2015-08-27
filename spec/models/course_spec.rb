@@ -120,31 +120,90 @@ describe Course do
     end
 
     context "multiple unenrolled students are enrolled" do
-      it "should enroll both students" do
+      before(:each) do
         @course_memberships = @course.enroll_students(@student1, @student2)
+      end
+
+      it "should enroll both students" do
+        @total_valid = @course_memberships.collect(&:valid?).count(true)
+        expect(@total_valid).to eq(2)
+      end
+
+      it "should return valid course memberships" do
+        @total_course_memberships = @course_memberships.collect(&:class).count(CourseMembership)
+        expect(@total_course_memberships).to eq(2)
+      end
+
+      it "should associate the student with the course memberships", broken: true do
+        @course_membership_user_ids = @course_memberships.collect(&:user_id)
+        expect(@course_membership_user_ids.count(@student1[:id])).to eq(1)
+        expect(@course_membership_user_ids.count(@student2[:id])).to eq(1)
       end
     end
 
     context "one unenrolled student is enrolled" do
-      it "should enroll the unenrolled student" do
+      before do
+        @course_memberships = @course.enroll_students(@student1)
+        @course_membership = @course_memberships.first
+      end
+
+      it "should return a single course membership" do
+        expect(@course_memberships.count).to eq(1)
+      end
+
+      it "should be a course membership objec" do
+        expect(@course_membership.class).to eq(CourseMembership)
+      end
+
+      it "should return a valid course membership" do
+        expect(@course_membership.valid?).to eq(true)
       end
     end
 
     context "no students are enrolled" do
+      before(:each) do
+        @course_memberships = @course.enroll_students()
+      end
+
       it "should not create any new enrollments" do
+        expect(@course_memberships).to eq([])
       end
     end
 
     context "one student is already enrolled and one is not" do
+      before(:each) do
+        @course.enroll_students(@student1)
+        @course_memberships = @course.enroll_students(@student1, @student2)
+      end
+
+      it "should only enroll one student" do
+        @total_valid = @course_memberships.collect(&:valid?).count(true)
+        expect(@total_valid).to eq(1)
+      end
+
+      it "should return a course membership for each student" do
+        @total_course_memberships = @course_memberships.collect(&:class).count(CourseMembership)
+        expect(@total_course_memberships).to eq(2)
+      end
+
+      it "should associate the student with the course memberships" do
+        @course_membership_user_ids = @course_memberships.collect(&:user_id)
+        expect(@course_membership_user_ids.count(@student1[:id])).to eq(1)
+        expect(@course_membership_user_ids.count(@student2[:id])).to eq(1)
+      end
+
       it "should enroll the unenrolled student" do
+        pending
       end
 
       it "should not enroll the enrolled student" do
+        pending
       end
     end
 
     context "one student is submitted and is already enrolled" do
       it "should not re-enroll the enrolled student" do
+        pending
       end
     end
   end

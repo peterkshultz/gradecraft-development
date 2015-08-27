@@ -268,7 +268,7 @@ class Course < ActiveRecord::Base
 
   def enroll_students(*students)
     students.collect do |student|
-      CourseMembership.create user: student, course: self, role: "student"
+      CourseMembership.create user_id: student[:id], course: self, role: "student"
     end
   end
 

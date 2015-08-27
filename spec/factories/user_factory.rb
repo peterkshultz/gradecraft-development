@@ -11,9 +11,5 @@ FactoryGirl.define do
     factory :student do
       role { "student" }
     end
-
-    factory :auditing_student do
-      auditing { true }
-    end
   end
 end

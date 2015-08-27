@@ -170,13 +170,22 @@ describe Course do
       end
     end
 
-    context "one student is already enrolled and one is not" do
+    context "one student is already enrolled and one is not", working: true do
+      # student1 is already enrolled, should return an invalid course membership
+      # student2 is not enrolled in the course, and should return a valid course membership
+      
       before(:each) do
-        @course.enroll_students(@student1)
+        # enroll student1 in the course prematurely
+        CourseMembership.create user_id: @student1[:id], course_id: @course[:id]
         @course_memberships = @course.enroll_students(@student1, @student2)
       end
 
+      # it "should add one course membership" do
+      #   expect { @course.enroll_students(@student1, @student2) }.to change{CourseMembership.count}.from(1).to(2)
+      # end
+
       it "should only enroll one student" do
+        puts "Course Memberships"
         @total_valid = @course_memberships.collect(&:valid?).count(true)
         expect(@total_valid).to eq(1)
       end
@@ -192,12 +201,20 @@ describe Course do
         expect(@course_membership_user_ids.count(@student2[:id])).to eq(1)
       end
 
+      it "should return one invalid course membership" do
+        @total_valid = @course_memberships.collect(&:valid?).count(false)
+        expect(@total_valid).to eq(1)
+      end
+
       it "should enroll the unenrolled student" do
-        pending
+        @student2_membership = @course_memberships.select do |course_membership|
+          course_membership[:user_id] == @student2[:id]
+        end.first
+        expect(@student2_membership).to be_valid
       end
 
       it "should not enroll the enrolled student" do
-        pending
+        expect(@course_memberships.select(&:invalid?).first[:user_id]).to eq(@student1[:id])
       end
     end
 

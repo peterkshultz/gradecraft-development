@@ -2,8 +2,12 @@ class CourseMembership < ActiveRecord::Base
   belongs_to :course
   belongs_to :user
 
-  attr_accessible :auditing, :character_profile, :course_id, :instructor_of_record,
-    :user_id, :role
+  attr_accessible :auditing,
+    :character_profile,
+    :course_id,
+    :instructor_of_record,
+    :user_id,
+    :role
 
   ROLES = %w(student professor gsi admin)
 
@@ -16,6 +20,9 @@ class CourseMembership < ActiveRecord::Base
 
   scope :auditing, -> { where( :auditing => true ) }
   scope :being_graded, -> { where( :auditing => false) }
+
+  validates_presence_of :course_id
+  validates_presence_of :user_id
 
   validates :instructor_of_record, instructor_of_record: true
   validates_uniqueness_of :course_id,  scope: :user_id

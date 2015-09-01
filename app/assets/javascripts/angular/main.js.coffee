@@ -75,6 +75,22 @@ INTEGER_REGEXP = /^\-?\d+$/
     return
   ]
 
+@gradecraft.directive 'gradeSchemeHighRange', [ 'GradeSchemeElementsService', (GradeSchemeElementsService)->
+  require: "ngModel"
+  link: (scope, elm, attrs, ctrl) ->
+    ctrl.$parsers.unshift (viewValue) ->
+      debugger
+      if GradeSchemeElementsService.checkLowRange(viewValue, attrs.index)
+        # it is valid
+        ctrl.$setValidity "gradeSchemeLowRange", true
+        viewValue
+      else
+        # it is invalid, return undefined (no model update)
+        ctrl.$setValidity "gradeSchemeLowRange", false
+        'undefined'
+    return
+  ]
+
 @gradecraft.directive "collapseToggler", ->
   restrict : 'C',
   link: (scope, elm, attrs) ->

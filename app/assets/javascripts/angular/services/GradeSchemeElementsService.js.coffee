@@ -19,7 +19,7 @@
         letter: ''
         level: ''
         low_range: ''
-        high_range: totalPoints
+        high_range: ''
       })
 
     checkLowRange = (value, index) ->

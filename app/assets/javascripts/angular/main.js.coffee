@@ -57,12 +57,16 @@ INTEGER_REGEXP = /^\-?\d+$/
       else
         # it is invalid, return undefined (no model update)
         ctrl.$setValidity "integer", false
-        'undefined'
+        viewValue
     return
 
-@gradecraft.directive 'gradeSchemeLowRange', [ 'GradeSchemeElementsService', (GradeSchemeElementsService)->
+@gradecraft.directive 'gradeSchemeRanges', [ 'GradeSchemeElementsService', (GradeSchemeElementsService)->
   require: "ngModel"
+  restrict: 'A'
+  # replace: true
+  templateUrl: 'ng_gradeSchemeRanges.html'
   link: (scope, elm, attrs, ctrl) ->
+    debugger
     ctrl.$parsers.unshift (viewValue) ->
       if GradeSchemeElementsService.checkLowRange(viewValue, attrs.index)
         # it is valid
@@ -71,23 +75,7 @@ INTEGER_REGEXP = /^\-?\d+$/
       else
         # it is invalid, return undefined (no model update)
         ctrl.$setValidity "gradeSchemeLowRange", false
-        'undefined'
-    return
-  ]
-
-@gradecraft.directive 'gradeSchemeHighRange', [ 'GradeSchemeElementsService', (GradeSchemeElementsService)->
-  require: "ngModel"
-  link: (scope, elm, attrs, ctrl) ->
-    ctrl.$parsers.unshift (viewValue) ->
-      debugger
-      if GradeSchemeElementsService.checkLowRange(viewValue, attrs.index)
-        # it is valid
-        ctrl.$setValidity "gradeSchemeLowRange", true
         viewValue
-      else
-        # it is invalid, return undefined (no model update)
-        ctrl.$setValidity "gradeSchemeLowRange", false
-        'undefined'
     return
   ]
 

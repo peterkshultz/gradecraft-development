@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150829215357) do
+ActiveRecord::Schema.define(version: 20150906162657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -368,7 +368,7 @@ ActiveRecord::Schema.define(version: 20150829215357) do
     t.string   "location",                      limit: 255
     t.string   "office_hours",                  limit: 255
     t.text     "meeting_times"
-    t.string   "media_file",                    limit: 255
+    t.string   "media",                         limit: 255
     t.string   "media_credit",                  limit: 255
     t.string   "media_caption",                 limit: 255
     t.string   "badge_term",                    limit: 255
@@ -465,6 +465,18 @@ ActiveRecord::Schema.define(version: 20150829215357) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
+
+  create_table "flagged_users", force: :cascade do |t|
+    t.integer  "course_id"
+    t.integer  "flagger_id"
+    t.integer  "flagged_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "flagged_users", ["course_id"], name: "index_flagged_users_on_course_id", using: :btree
+  add_index "flagged_users", ["flagged_id"], name: "index_flagged_users_on_flagged_id", using: :btree
+  add_index "flagged_users", ["flagger_id"], name: "index_flagged_users_on_flagger_id", using: :btree
 
   create_table "grade_files", force: :cascade do |t|
     t.integer  "grade_id"
@@ -845,7 +857,7 @@ ActiveRecord::Schema.define(version: 20150829215357) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "username",                        limit: 255,                     null: false
+    t.string   "username",                        limit: 255,                 null: false
     t.string   "email",                           limit: 255
     t.string   "crypted_password",                limit: 255
     t.string   "salt",                            limit: 255
@@ -860,7 +872,6 @@ ActiveRecord::Schema.define(version: 20150829215357) do
     t.string   "avatar_content_type",             limit: 255
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
-    t.string   "role",                            limit: 255, default: "student", null: false
     t.string   "first_name",                      limit: 255
     t.string   "last_name",                       limit: 255
     t.integer  "rank"
@@ -881,6 +892,7 @@ ActiveRecord::Schema.define(version: 20150829215357) do
     t.string   "activation_state"
     t.string   "activation_token"
     t.datetime "activation_token_expires_at"
+    t.boolean  "admin",                                       default: false
   end
 
   add_index "users", ["activation_token"], name: "index_users_on_activation_token", using: :btree
@@ -893,4 +905,7 @@ ActiveRecord::Schema.define(version: 20150829215357) do
   add_foreign_key "announcement_states", "users"
   add_foreign_key "announcements", "courses"
   add_foreign_key "announcements", "users", column: "author_id"
+  add_foreign_key "flagged_users", "courses"
+  add_foreign_key "flagged_users", "users", column: "flagged_id"
+  add_foreign_key "flagged_users", "users", column: "flagger_id"
 end

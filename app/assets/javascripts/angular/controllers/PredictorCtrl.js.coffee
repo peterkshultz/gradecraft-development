@@ -49,6 +49,16 @@
     else
       return true
 
+  $scope.articleNoPoints = (assignment)->
+    # if (assignment.id == 1)
+    #   debugger
+    if assignment.pass_fail && assignment.grade.pass_fail_status != "Pass"
+      return true
+    else if assignment.grade.score == null || assignment.grade.score == 0
+      return true
+    else
+      return false
+
   # Assignments with Score Levels: returns true
   $scope.hasLevels = (assignment)->
     assignment.score_levels.length > 0

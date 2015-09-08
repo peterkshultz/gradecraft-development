@@ -1,4 +1,4 @@
-%article.predictor-article{'ng-repeat' => 'assignment in assignments | filter:{assignment_type_id: assignmentType.id}:true','ng-class'=>'{"status-graded" : articleGraded(assignment), "status-locked" : assignment.locked}'}
+%article.predictor-article{'ng-repeat' => 'assignment in assignments | filter:{assignment_type_id: assignmentType.id}:true','ng-class'=>'{"status-graded" : articleGraded(assignment),"status-no-points":articleNoPoints(assignment), "status-locked" : assignment.locked}'}
 
   .predictor-article-title{'title' => '{{assignment.name}}'}
     {{assignment.name | limitTo:26}}
@@ -16,7 +16,10 @@
       .grade{'ng-if' => 'assignment.pass_fail == false'}
         {{assignment.grade.score | number}} / {{assignment.point_total | number}}
       .grade{'ng-if' => 'assignment.pass_fail == true'}
-        {{termFor[assignment.grade.pass_fail_status]}}
+        .no-status{{'ng-if'=>'!assignment.grade.pass_fail_status'}}
+          {{termFor["pass"]}} / {{termFor["fail"]}}
+        .status{{'ng-if'=>'assignment.grade.pass_fail_status'}}
+          {{termFor[assignment.grade.pass_fail_status]}}
 
     .article-predicted{'ng-if' => '! articleGraded(assignment)'}
       %div{'ng-if' => 'assignment.pass_fail == false && assignment.fixed == false'}

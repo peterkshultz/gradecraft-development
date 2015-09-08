@@ -252,6 +252,7 @@ class AssignmentsController < ApplicationController
         # Only pass through points if they have been released by the professor
         unless grade.is_student_visible?
           assignment.current_student_grade.pass_fail_status = nil
+
           assignment.current_student_grade.score = nil
         end
       end
@@ -306,7 +307,6 @@ class AssignmentsController < ApplicationController
         :id,
         :predicted_score,
         :pass_fail_status,
-        :point_total,
         :status,
         :student_id,
         :raw_score,

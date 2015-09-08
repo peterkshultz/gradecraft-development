@@ -152,12 +152,15 @@ $predictor-font-size-5 : .55rem
       float: left
       &.padded
         padding: 0 0 0 10px
+      &.left-padded
+        padding: 0 10px 0 0
       &.predictor-default-weight
         font-size: $predictor-font-size-3
         background-color: $color-blue-1
         padding: 2px 5px
         margin: 4px 0 0 10px
         border-radius: 6px
+        line-height: normal
 
     .predictor-section-title-weights
       padding: 0 0 0 15px
@@ -424,7 +427,7 @@ article.predictor-article
   height: 0
   margin-top: 0
   margin-bottom: 0
-  border-top: none
+  border-top: none !important
   border-bottom: none !important
 
 /* MEDIA QUERIES */
@@ -473,6 +476,9 @@ article.predictor-article
   .predictor-section-title .predictor-section-title-predicted-points .predictor-excess-points
     text-align: left
     float: none
+    .icon
+      margin: 0
+      font-size: $predictor-font-size-1
   #predictor-main-header
     height: 80px
     margin-top: 15px

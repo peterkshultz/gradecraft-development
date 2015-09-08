@@ -252,8 +252,12 @@ class AssignmentsController < ApplicationController
         # Only pass through points if they have been released by the professor
         unless grade.is_student_visible?
           assignment.current_student_grade.pass_fail_status = nil
-
           assignment.current_student_grade.score = nil
+        end
+
+        # don't allow professors to view predictions
+        unless current_user.is_student?(current_course)
+          assignment.current_student_grade.predicted_score = 0
         end
       end
     end

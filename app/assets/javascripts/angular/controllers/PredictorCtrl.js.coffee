@@ -1,6 +1,7 @@
 @gradecraft.controller 'PredictorCtrl', ['$scope', '$http', '$q', '$filter', 'PredictorService', ($scope, $http, $q, $filter, PredictorService) ->
 
   $scope.assignmentMode = true
+  $scope.loading = true
 
   $scope.services = ()->
     promises = [PredictorService.getGradeLevels(),
@@ -14,6 +15,7 @@
 
   $scope.services().then(()->
     $scope.renderGradeLevelGraphics()
+    $scope.loading = false
   )
 
   $scope.assignments = PredictorService.assignments

@@ -57,7 +57,13 @@ describe NullStudent do
       expect(grade.final_score).to eq(nil)
       expect(grade.pass_fail_status).to eq(nil)
     end
+
+    it "handles assignment of predicted_score" do
+      grade = NullStudentGrade.new
+      expect(grade.predicted_score = 100).to eq(100)
+    end
   end
+
 
   describe "NullStudentTeam and it's grades" do
     it "returns true for team for course present?" do

@@ -45,6 +45,12 @@ end
 
 
 class NullStudentGrade
+  attr_accessor :predicted_score
+
+  def initialize
+    @predicted_score = 0
+  end
+
   def is_student_visible?
     true
   end
@@ -63,10 +69,6 @@ class NullStudentGrade
 
   def point_total
     555
-  end
-
-  def predicted_score
-    0
   end
 
   def score

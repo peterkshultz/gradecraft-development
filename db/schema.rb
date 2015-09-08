@@ -525,14 +525,14 @@ ActiveRecord::Schema.define(version: 20150907224335) do
     t.text     "admin_notes"
     t.integer  "graded_by_id"
     t.integer  "team_id"
-    t.integer  "predicted_score",                  default: 0,     null: false
+    t.integer  "predicted_score"
     t.boolean  "instructor_modified",              default: false
     t.string   "pass_fail_status"
     t.boolean  "feedback_read",                    default: false
     t.datetime "feedback_read_at"
-    t.boolean  "is_custom_value",                  default: false
     t.boolean  "feedback_reviewed",                default: false
     t.datetime "feedback_reviewed_at"
+    t.boolean  "is_custom_value",                  default: false
   end
 
   add_index "grades", ["assignment_id", "student_id"], name: "index_grades_on_assignment_id_and_student_id", unique: true, using: :btree

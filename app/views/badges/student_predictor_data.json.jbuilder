@@ -28,9 +28,7 @@ json.badges @badges do |badge|
     json.locked ! badge.is_unlocked_for_student?(@student)
     json.unlocked badge.is_unlockable? && badge.is_unlocked_for_student?(@student)
     if badge.is_unlockable?
-      json.unlock_conditions badge.unlock_conditions.map { |uc|
-        "#{condition.name} must be #{condition.condition_state}"
-      }
+      json.unlock_conditions badge.unlock_conditions.map { |condition| "#{condition.name} must be #{condition.condition_state}" }
     end
     json.condition badge.is_a_condition?
     if badge.is_a_condition?

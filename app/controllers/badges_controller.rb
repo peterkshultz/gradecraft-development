@@ -148,6 +148,7 @@ class BadgesController < ApplicationController
                                   :description,
                                   :point_total,
                                   :visible,
+                                  :visible_when_locked,
                                   :can_earn_multiple_times,
                                   :position,
                                   :updated_at,
